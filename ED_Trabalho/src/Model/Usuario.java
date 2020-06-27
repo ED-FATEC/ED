@@ -29,6 +29,5 @@ public abstract class Usuario {
 	}
 	public void setTipo_de_usuario(String tipo_de_usuario) {
 		Tipo_de_usuario = tipo_de_usuario;
-	}
-	
+	}	
 }

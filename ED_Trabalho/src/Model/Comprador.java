@@ -1,7 +1,8 @@
 package Model;
 
 public class Comprador {
-	private	String Nome_ou_Razão_social;		
+	private	String Nome;
+	private String Razao_social;
 	private	int	CNPJ;		
 	private	int	Inscrição_Estadual;		
 	private	String	Endereço;		
@@ -13,11 +14,17 @@ public class Comprador {
 	private	int	Celular;	
 	private	String	Email;
 	
-	public String getNome_ou_Razão_social() {
-		return Nome_ou_Razão_social;
+	public String getNome() {
+		return Nome;
 	}
-	public void setNome_ou_Razão_social(String nome_ou_Razão_social) {
-		Nome_ou_Razão_social = nome_ou_Razão_social;
+	public void setNome(String nome) {
+		Nome = nome;
+	}
+	public String getRazão_social() {
+		return Razao_social;
+	}
+	public void setRazao_social(String Razão_social) {
+		Razao_social = Razão_social;
 	}
 	public int getCNPJ() {
 		return CNPJ;

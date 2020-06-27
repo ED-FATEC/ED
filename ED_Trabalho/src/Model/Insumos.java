@@ -4,7 +4,7 @@ public class Insumos {
 	private	int	Quadra;		
 	private	int	Parcela;		
 	private	int	Talhão;		
-	private	int	Data_de_aplicação;	
+	private	String	Data_de_aplicação;	
 	private	String	Nome_comercial_do_produto;	
 	private	int	Periodo_de_carência_em_dias;		
 	private	int	Dose;
@@ -27,10 +27,10 @@ public class Insumos {
 	public void setTalhão(int talhão) {
 		Talhão = talhão;
 	}
-	public int getData_de_aplicação() {
+	public String getData_de_aplicação() {
 		return Data_de_aplicação;
 	}
-	public void setData_de_aplicação(int data_de_aplicação) {
+	public void setData_de_aplicação(String data_de_aplicação) {
 		Data_de_aplicação = data_de_aplicação;
 	}
 	public String getNome_comercial_do_produto() {
