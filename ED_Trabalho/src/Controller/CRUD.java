@@ -1,15 +1,23 @@
 package Controller;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-
-import javax.swing.JOptionPane;
-
 import Model.Colheita;
 import Model.Comprador;
 import Model.Empresa;
@@ -31,11 +39,9 @@ public class CRUD {
 	Rotulos rotulos =  new Rotulos();
 	Venda venda =  new Venda();
 	public void Inserir(int opt2) throws IOException {
-		File dir = new File("C:\\TEMP");
 		File file = new File("C:\\TEMP", "entrada.txt");
 		Queue<Object> fila = new LinkedList<Object>();
-		if(dir.exists() && dir.isDirectory()) {
-			if(file.exists() && file.isFile()) {
+		if(verificaDir() == true) {
 				if(opt2 == 1) {
 					fila.add(colheita.getCultura());
 					fila.add(colheita.getData_de_embalamento());
@@ -127,7 +133,50 @@ public class CRUD {
 					fila.add(venda.getNota_Físcal());
 					fila.add(venda.getProduto());
 					fila.add(venda.getQuantidade());
-				} 
+				}
+				FileReader leitor = new FileReader(file);
+				BufferedReader buffer = new BufferedReader(leitor);
+				String linha = "";
+				boolean topico = false;
+				 while ((linha = buffer.readLine()) != null) {
+		            if(linha.equalsIgnoreCase("Colheita:")){
+		                topico = true;
+		            }
+				}
+		}
+	}
+	private void gerarArquivo() throws IOException{
+		File file = new File("C:\\TEMP", "entrada.txt");
+		file.createNewFile();
+		FileWriter writer = new FileWriter(file,true);
+		BufferedWriter buffer = new BufferedWriter(writer);
+		PrintWriter print = new PrintWriter(buffer);
+		print.write("Colheita:\n(Cultura|Variedade_ou_Cultivar|Quadra|Parcela|Talhão|Lote|Data_de_embalamento|Unidade_Comercializada|Observações)\n\n\r\r" + 
+		"Comprador:\n(Nome|Razao_social|CNPJ|Inscrição_Estadual|Endereço|Bairro|CEP|Estado|Munícipio|Telefone|Celular|Email)\n\n\r\r"+
+		"Empresa:\n(Telefone|Celular|Email|Tipo_de_usuario|Razão_Social)\n\n\r\r" +
+		"Insumos:\n(Quadra|Parcela|Talhão|Data de aplicação|Nome comercial do produto|Periodo de carência em dias|Dose)\n\n\r\r" +
+		"Produtos:\n(Nome|Tipo|Colheita)\n\n\r\r" +
+		"Produtor:\n(Telefone|Celular|Email|Tipo_de_usuario|Nome)\n\n\r\r" +
+		"Propriedade:\n(Nome|Endereço|Bairro|Munícipio|Estado|CEP|Altitude|Longitude|Latitude|CCIR|CNPJ)\n\n\r\r" +
+		"Rotulos:\n(Produto|Variedade|Classificação|Nome_do_produtor|CNPJ|Nome_da_propriedade|Endereço|Baírro|Município|Estado|País_de_Origem|CEP|Altitude|Latitude|Longitude|Peso_Líquido|Lote|Data_de_Embalamento|Codigo_de_barras)\n\n\r\r" +
+		"Venda:\n(Data|Nota_Físcal|Produto|Lote|Quantidade)");
+		print.flush();
+		print.close();
+		buffer.close();
+		writer.close();
+	}
+	
+	private void gerarDiretório() throws IOException{
+		File dir = new File("C:\\TEMP");
+		dir.mkdir();
+	}
+	private boolean verificaDir() throws IOException {
+		File dir = new File("C:\\TEMP");
+		File file = new File("C:\\TEMP", "entrada.txt");
+		boolean existe = false;
+		if(dir.exists() && dir.isDirectory()) {
+			if(file.exists() && file.isFile()) {
+				existe = true;
 			}
 			else {
 				System.out.println("O arquivo 'entrada.txt' não existe, criando o arquivo...");
@@ -137,38 +186,26 @@ public class CRUD {
 		else {
 			System.out.println("O diretório não existe, criando o diretório e arquivo...");
 			gerarDiretório();
-			gerarArquivo();
+			gerarArquivo();	
 		}
+		return existe;
 	}
-	private void gerarArquivo() throws IOException{
-		File file = new File("C:\\TEMP", "entrada.txt");
-		file.createNewFile();
-		FileWriter writer = new FileWriter(file,true);
-		BufferedWriter buffer = new BufferedWriter(writer);
-		PrintWriter print = new PrintWriter(buffer);
-		print.write("Colheita:\n\r(Cultura|Variedade_ou_Cultivar|Quadra|Parcela|Talhão|Lote|Data_de_embalamento|Unidade_Comercializada|Observações)\n\n\r\r" + 
-		"Comprador:\n\r(Nome|Razao_social|CNPJ|Inscrição_Estadual|Endereço|Bairro|CEP|Estado|Munícipio|Telefone|Celular|Email)\n\n\r\r"+
-		"Empresa:\n\r(Telefone|Celular|Email|Tipo_de_usuario|Razão_Social)\n\n\r\r" +
-		"Insumos:\n\r(Quadra|Parcela|Talhão|Data de aplicação|Nome comercial do produto|Periodo de carência em dias|Dose)\n\n\r\r" +
-		"Produtos:\n\r(Nome|Tipo|Colheita)\n\n\r\r" +
-		"Produtor:\n\r(Telefone|Celular|Email|Tipo_de_usuario|Nome)\n\n\r\r" +
-		"Propriedade:\n\r(Nome|Endereço|Bairro|Munícipio|Estado|CEP|Altitude|Longitude|Latitude|CCIR|CNPJ)\n\n\r\r" +
-		"Rotulos:\n\r(Produto|Variedade|Classificação|Nome_do_produtor|CNPJ|Nome_da_propriedade|Endereço|Baírro|Município|Estado|País_de_Origem|CEP|Altitude|Latitude|Longitude|Peso_Líquido|Lote|Data_de_Embalamento|Codigo_de_barras)\n\n\r\r" +
-		"Venda:\n\r(Data|Nota_Físcal|Produto|Lote|Quantidade)");
-		print.flush();
-		print.close();
-		buffer.close();
-		writer.close();
-	}
-	private void gerarDiretório() throws IOException{
-		File dir = new File("C:\\TEMP");
-		dir.mkdir();
-	}
+	
 	public void Alterar() {
 		
 	}
-	public void Ler() {
-		
+	public void Ler() throws IOException {
+		File file = new File("C:\\TEMP", "entrada.txt");
+		if(verificaDir() == true) {
+			FileReader leitor = new FileReader(file);
+			BufferedReader buffer = new BufferedReader(leitor);
+			String linha = "";
+			while (!(linha = buffer.readLine()).equals("FIM")) {
+	           System.out.println(linha);
+			}
+			buffer.close();
+			leitor.close();
+		}
 	}
 	public void Excluir() {
 		

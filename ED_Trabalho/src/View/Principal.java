@@ -1,12 +1,14 @@
 package View;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 import Model.*;
 import Controller.CRUD;
 public class Principal{
 
 	public static void main(String[] args) {
-	int opt = Integer.parseInt(JOptionPane.showInputDialog("Selecione a operação desejada:\n1-Inserir dados\n2-Atualizar dados\n3-Excluir dados\n4-Pesquisar dados\n5-Ordenar dados\n\n0-para encerrar o programa"));
 	int opt2 = 0;
+	int Sair = 0;
 	CRUD crud = new CRUD();
 	Colheita colheita = new Colheita();	
 	Comprador comprador =  new Comprador();
@@ -18,6 +20,7 @@ public class Principal{
 	Rotulos rotulos =  new Rotulos();
 	Venda venda =  new Venda();
 		do {
+			int opt = Integer.parseInt(JOptionPane.showInputDialog("Selecione a operação desejada:\n1-Inserir dados\n2-Atualizar dados\n3-Excluir dados\n4-Pesquisar dados\n5-Ordenar dados\n6-Ler dados do arquivo\n\n0-para encerrar o programa"));
 			switch(opt) {
 				case 1:
 					opt2 = Integer.parseInt(JOptionPane.showInputDialog("Em qual tabela você deseja inserir:\n1-Colheita\n2-Comprador\n3-Empresa\n4-Insumos\n5-Produto\n6-Produtor\n7-Propriedade\n8-Rotulo\n9-Vendas\n\n0-Para retornar para o menu principal"));
@@ -109,8 +112,16 @@ public class Principal{
 						venda.setNota_Físcal(Integer.parseInt(JOptionPane.showInputDialog("Insira a nota físcal:")));
 						venda.setProduto(String.valueOf(JOptionPane.showInputDialog("Insira o nome do produto:")));
 						venda.setQuantidade(Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade vendida:")));
-					} else {
+					} 
+					else {
 						JOptionPane.showMessageDialog(null, "Função tabela não existente","Erro",JOptionPane.ERROR_MESSAGE);
+						break;
+					}
+					try {
+						crud.Inserir(opt2);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					break;
 				case 2:
@@ -213,9 +224,22 @@ public class Principal{
 					break;
 				case 5:
 					break;
+				case 6:
+				try {
+					crud.Ler();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					break;
+				case 0:
+					Sair = JOptionPane.showConfirmDialog(null,"Você deseja encerrar a aplicação?","Sair",JOptionPane.YES_NO_OPTION);
+					break;
 				default:
+					JOptionPane.showMessageDialog(null, "Operação não existente","Erro",JOptionPane.ERROR_MESSAGE);
 					break;
 			}
-		}while(opt != 0);
+			
+		}while(Sair != JOptionPane.YES_OPTION);
 	}
 }
