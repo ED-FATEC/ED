@@ -25,6 +25,8 @@ import Model.Rotulos;
 import Model.Venda;
 
 public class CRUD {
+	/*As variaveis abaixo são representações da estrutura da tabela e 
+	servem para a coletar de dados inseridos pelo usuario, atraves das funções get() e set()*/
 	Colheita colheita = new Colheita();	
 	Comprador comprador =  new Comprador();
 	Empresa empresa =  new Empresa();
@@ -34,31 +36,40 @@ public class CRUD {
 	Propriedade propriedade =  new Propriedade();
 	Rotulos rotulos =  new Rotulos();
 	Venda venda =  new Venda();
-	
+	//Insere registros em uma tabela selecionada pelo usuario
 	public void Inserir(int opt2) throws IOException {
-		File file = new File("C:\\TEMP", "entrada.txt");
-		Queue<Object> fila = new LinkedList<Object>();
-		int index = 0;
 		if(verificaDir() == true) {
+			File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
+			Queue<Object> fila = new LinkedList<Object>();//Vai armazenar os dados inseridos pelo usuario
+			ArrayList<Object> lista = new ArrayList<Object>();//Vai armazenar todo o conteudo do arquivo 'entrada.txt'
+			String linha = "";//Vai receber o conteudo do arquivo 'entrada.txt' linha por linha
+			String dados = "";//A variavel dados vai receber e concatenar os dados inseridos do usuario, atraves da fila
+			int index = 0;//Vai receber o indice do fim da area de inserção de registros
+			//Busca a tabela selecionada pelo usuario e retorna  o inicio e fim da area de inserção de registros
+			String tabela[] = selecionaTabela(opt2);
+			//A fila recebe todos os dados inseridos pelo usuario
 			fila.addAll(getAll(opt2));
+			//Abaixo o arquivo vai ser lido e alocado linha por linha na variavel linha
+			//Depois a variavel lista adiciona a variavel linha 
+			//Após essas operações os leitores de arquivo e o buffer são fechados
 			FileInputStream arq = new FileInputStream(file);
 			InputStreamReader leitor = new InputStreamReader(arq);
 			BufferedReader buffer = new BufferedReader(leitor);
-			ArrayList<Object> lista = new ArrayList<Object>();
-			String linha = "";
 			while ((linha = buffer.readLine()) != null) {
 				lista.add(linha);
 			}
 			buffer.close();
 			leitor.close();
 			arq.close();
-			String tabela[] = selecionaTabela(opt2);
+			//A variavel index vai receber o indice do fim da area de inserção de registros
+			//A variavel dados vai receber e concatenar os dados inseridos do usuario, atraves da fila
+			//E depois a variavel dados sera adicionada a lista na ultima posição da area de inserção
 			index = lista.indexOf(tabela[0]);
-			String dados = "";
 			while(!fila.isEmpty()) {
 				dados += fila.poll() + " ";
 			}
 			lista.add(index, dados);
+			//Depois da lista estar com os novos dados, o arquivo 'entrada.txt' é reescrito com os novos dados
 			FileWriter writer = new FileWriter(file,false);
 			BufferedWriter bufferW = new BufferedWriter(writer);
 			PrintWriter print = new PrintWriter(bufferW);
@@ -71,6 +82,7 @@ public class CRUD {
 			writer.close();
 		}
 	}
+	//Quando chamada, ela verifica a tabela selecionada pelo usuario e retorna o topo e o fim da area de registros
 	private String[] selecionaTabela(int opt2) {
 		String tabela[] = new String[2];
 		if(opt2 == 1) {
@@ -113,8 +125,11 @@ public class CRUD {
 	}
 	//Caso o diretório exista, mas o arquivo não, essa função cria ele
 	private void gerarArquivo() throws IOException{
-		File file = new File("C:\\TEMP", "entrada.txt");
+		File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
+		//Cria o arquivo
 		file.createNewFile();
+		//Depois de criado, o codigo abaixo escreve a estrutura padrão da tabela
+		//Após essas operações os escritores de arquivo e o buffer são fechados
 		FileWriter writer = new FileWriter(file,true);
 		BufferedWriter buffer = new BufferedWriter(writer);
 		PrintWriter print = new PrintWriter(buffer);
@@ -139,9 +154,9 @@ public class CRUD {
 	}
 	//Verifica a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
 	public boolean verificaDir() throws IOException {
-		File dir = new File("C:\\TEMP");
-		File file = new File("C:\\TEMP", "entrada.txt");
-		boolean existe = false;
+		File dir = new File("C:\\TEMP");//Busca e armazena o diretorio 'TEMP'
+		File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
+		boolean existe = false;//Caso o diretório e o arquivo exista essa variavel fica true
 		if(dir.exists() && dir.isDirectory()) {
 			if(file.exists() && file.isFile()) {
 				existe = true;
@@ -158,38 +173,50 @@ public class CRUD {
 		}
 		return existe;
 	}
-	
+	//Altera os dados de um registro que o usuario escolher
 	public void Alterar(int opt2,int cod) throws IOException {
-		File file = new File("C:\\TEMP", "entrada.txt");
+		//Vai verificar a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
 		if(verificaDir() == true) {
-			Queue<Object> fila = new LinkedList<Object>();
-			int cont = 0;
+			File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
+			Queue<Object> fila = new LinkedList<Object>();//Vai armazenar os dados inseridos pelo usuario
+			LinkedList<Object> lista = new LinkedList<Object>();//Vai armazenar todo o conteudo do arquivo 'entrada.txt'
+			int cont = 0;//Vai servir de contador para navegar em uma matriz
+			String linha = "";//Vai receber o conteudo do arquivo 'entrada.txt' linha por linha
+			String valores[][];//Vai receber os valores do arquivo que o usario deseja alterar de forma separada
+			int inicio = 0, fim = 0;//Vão armazenar os indices do começo do final da area de registros
+			String tabela[] = selecionaTabela(opt2); //Busca a tabela selecionada pelo usuario e retorna  o inicio e fim da area de inserção de registros
+			String c = "";//Vai receber os valores do arquivo que o usario deseja alterar de forma unida
+			String aux[]; //Vai receber os valores do arquivo que o usario deseja alterar de forma unida e vai os transferir para uma matriz
+			Object sub_lista[];//De todo o conteudo do arquivo 'entrada.txt' essa variavel ai pegar somente as partes dos registros
+			//Abaixo o arquivo vai ser lido e alocado linha por linha na variavel linha
+			//Depois a mesma variavel linha vai ser alocada na lista
+			//E por fim os leitores e o buffer vai ser fechados
 			FileInputStream arq = new FileInputStream(file);
 			InputStreamReader leitor = new InputStreamReader(arq);
 			BufferedReader buffer = new BufferedReader(leitor);
-			LinkedList<Object> lista = new LinkedList<Object>();
-			String linha = "";
-			String valores[][];
-			int inicio = 0, fim = 0;
-			String tabela[] = selecionaTabela(opt2);
-			Object sub_lista[];
 			while ((linha = buffer.readLine()) != null) {
 				lista.add(linha);
 			}
 			buffer.close();
 			leitor.close();
 			arq.close();
+			//Ira procurar na lista e vai criar um vetor contendo somente os registros da tabela escolhida pelo usuario
 			inicio = lista.indexOf(tabela[1]);
 			fim = lista.indexOf(tabela[0]);
-			String c = "";
-			String aux[];
 			sub_lista = lista.subList(inicio + 1, fim).toArray();
+			//O if vai verificar se a algum registro na tabela escolhida pelo usuario
 			if(sub_lista.length != 0) {
+				//Vai realizar as funções de get() e set()
 				setAll(opt2);
 				fila.addAll(getAll(opt2));
+				//Com os registros já na variavel sub_lista, ela vai passar um valor inicial para a variavel c
+				//depois disso a variavel c ira remover os espaços, para que cada valor possa se alocado separadamente no vetor aux
+				//e por fim a matriz valores sera instanciada, atraves dos tamanhos das variavel sub_lista e aux
 				c = sub_lista[0].toString();
 				aux = c.split(" ");
 				valores = new String[sub_lista.length][aux.length];
+				//A variavel c vai receber os restos dos registros da sub_lista e ira alocar os valores separadamente no vetor aux
+				//E por fim a matriz valores vai receber os valores de aux, separando cada registro por linhas e colunas
 				for(int x = 0; x < sub_lista.length; x++) {
 					c = sub_lista[x].toString();
 					aux = c.split(" ");
@@ -197,13 +224,20 @@ public class CRUD {
 						valores[x][y] = aux[y];
 					}
 				}
+				//Depois da matriz valores ser preenchida, ela tera seus valores trocados pelos o novos dados inseridos pelo o usuario
+				//Depois a matriz passa seus dados para a variavel dados
+				//A	variavel cod equivale a linha que o usuario quer alterar
+				//A variavel cont só ser para navegar as colunas da matriz
+				//E no final a variavel dado substitui o registro escolhido pelo o usuario
 				String dados = "";
 				while(!fila.isEmpty()) {
-					valores[cod][cont] = fila.poll().toString();
-					dados += valores[cod][cont] + " ";
+					valores[cod - 1][cont] = fila.poll().toString();
+					dados += valores[cod - 1][cont] + " ";
 					cont++;
 				}
 				lista.set(inicio + cod, dados);
+				//Depois da lista estar com os novos dados, o arquivo 'entrada.txt' é reescrito com os novos dados
+				//Após essas operações os escritores de arquivo e o buffer são fechados
 				FileWriter writer = new FileWriter(file,false);
 				BufferedWriter bufferW = new BufferedWriter(writer);
 				PrintWriter print = new PrintWriter(bufferW);
@@ -220,30 +254,38 @@ public class CRUD {
 			}
 		}
 	}
+	//Exclui o primeiro registro de uma tabela escolhida
 	public void Excluir(int opt2) throws FileNotFoundException, IOException {
-		File file = new File("C:\\TEMP", "entrada.txt");
+		//Vai verificar a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
 		if(verificaDir() == true) {
-			Queue<Object> fila = new LinkedList<Object>();
+			File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
+			LinkedList<Object> lista = new LinkedList<Object>();//Vai armazenar todo o conteudo do arquivo 'entrada.txt'
+			String linha = "";//Vai receber o conteudo do arquivo 'entrada.txt' linha por linha
+			Object sub_lista[];//De todo o conteudo do arquivo 'entrada.txt' essa variavel ai pegar somente as partes dos registros
+			int inicio = 0, fim = 0;//Vão armazenar os indices do começo do final da area de registros
+			String tabela[] = selecionaTabela(opt2);//Busca a tabela selecionada pelo usuario e retorna  o inicio e fim da area de inserção de registros
+			//Abaixo o arquivo vai ser lido e alocado linha por linha na variavel linha
+			//Depois a mesma variavel linha vai ser alocada na lista
+			//E por fim os leitores e o buffer vai ser fechados
 			FileInputStream arq = new FileInputStream(file);
 			InputStreamReader leitor = new InputStreamReader(arq);
 			BufferedReader buffer = new BufferedReader(leitor);
-			LinkedList<Object> lista = new LinkedList<Object>();
-			String linha = "";
-			Object sub_lista[];
-			int inicio = 0, fim = 0;
-			String tabela[] = selecionaTabela(opt2);
 			while ((linha = buffer.readLine()) != null) {
-				fila.add(linha);
 				lista.add(linha);
 			}
 			buffer.close();
 			leitor.close();
 			arq.close();
+			//Ira procurar na lista e vai criar um vetor contendo somente os registros da tabela escolhida pelo usuario
 			inicio = lista.indexOf(tabela[1]);
 			fim = lista.indexOf(tabela[0]);
 			sub_lista = lista.subList(inicio + 1, fim).toArray();
+			//O if vai verificar se a algum registro na tabela escolhida pelo usuario
 			if(sub_lista.length != 0) {
+				//Remove o primeiro registro
 				lista.remove(inicio + 1);
+				//Depois da lista estar com os novos dados, o arquivo 'entrada.txt' é reescrito com os novos dados
+				//Após essas operações os escritores de arquivo e o buffer são fechados
 				FileWriter writer = new FileWriter(file,false);
 				BufferedWriter bufferW = new BufferedWriter(writer);
 				PrintWriter print = new PrintWriter(bufferW);
@@ -260,12 +302,16 @@ public class CRUD {
 			}
 		}
 	}
+	//Faz a leitura do arquivo 'entrada.txt' inteiro e mostra o conteudo do mesmo
 	public void Ler() throws IOException {
-		File file = new File("C:\\TEMP", "entrada.txt");
+		//Vai verificar a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
 		if(verificaDir() == true) {
+			File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
+			String linha = "";//Vai receber o conteudo do arquivo 'entrada.txt' linha por linha
+			//Abaixo o arquivo vai ser lido e o seu conteudo vai ser escrito no console para o usuario
+			//E por fim os leitores e o buffer vai ser fechados
 			FileReader leitor = new FileReader(file);
 			BufferedReader buffer = new BufferedReader(leitor);
-			String linha = "";
 			while ((linha = buffer.readLine()) != null) {
 	           System.out.println(linha);
 			}
@@ -273,9 +319,43 @@ public class CRUD {
 			leitor.close();
 		}
 	}
-	public void Consultar() {
-		
+	//Pequisa um registro em específico e retorna o registro para o usuario visualizar
+	public void Consultar(int opt2, int cod) throws IOException {
+		File file = new File("C:\\TEMP", "entrada.txt");
+		//Vai verificar a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
+		if(verificaDir() == true) {
+			LinkedList<Object> lista = new LinkedList<Object>();//Vai armazenar todo o conteudo do arquivo 'entrada.txt'
+			String linha = "";//Vai receber o conteudo do arquivo 'entrada.txt' linha por linha
+			Object sub_lista[];//De todo o conteudo do arquivo 'entrada.txt' essa variavel ai pegar somente as partes dos registros
+			int inicio = 0, fim = 0;//Vão armazenar os indices do começo do final da area de registros
+			String tabela[] = selecionaTabela(opt2);//Busca a tabela selecionada pelo usuario e retorna  o inicio e fim da area de inserção de registros
+			//Abaixo o arquivo vai ser lido e alocado linha por linha na variavel linha
+			//Depois a mesma variavel linha vai ser alocada na lista
+			//E por fim os leitores e o buffer vai ser fechados
+			FileInputStream arq = new FileInputStream(file);
+			InputStreamReader leitor = new InputStreamReader(arq);
+			BufferedReader buffer = new BufferedReader(leitor);
+			while ((linha = buffer.readLine()) != null) {
+				lista.add(linha);
+			}
+			buffer.close();
+			leitor.close();
+			arq.close();
+			//Ira procurar na lista e vai criar um vetor contendo somente os registros da tabela escolhida pelo usuario
+			inicio = lista.indexOf(tabela[1]);
+			fim = lista.indexOf(tabela[0]);
+			sub_lista = lista.subList(inicio + 1, fim).toArray();
+			//O if vai verificar se a algum registro na tabela escolhida pelo usuario
+			if(sub_lista.length != 0) {
+				//E por fim o programa imprime o registro pesquisado pelo usuario
+				System.out.print("Resultados da pesquisa: " + sub_lista[cod - 1].toString());
+			}
+			else {
+				throw new IOException("A tabela está vazia");
+			}
+		}
 	}
+	//Pega todos os valores adicionados pelo usuario e os adiciona em uma fila
 	private Queue<Object> getAll(int opt2) {
 		Queue<Object> fila = new LinkedList<Object>();
 		if(opt2 == 1) {
@@ -372,6 +452,7 @@ public class CRUD {
 		}
 		return fila;
 	}
+	//Pede para o usuario para selecionar uma tabela e depois pergunta para o usuario os valores que ele deseja inserir 
 	public void setAll(int opt2) {
 		if(opt2 == 1) {
 			colheita.setCultura(Integer.parseInt(JOptionPane.showInputDialog("Insira a cultura:")));
