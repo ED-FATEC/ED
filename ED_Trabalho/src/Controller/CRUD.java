@@ -153,7 +153,7 @@ public class CRUD {
 		dir.mkdir();
 	}
 	//Verifica a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
-	public boolean verificaDir() throws IOException {
+	private boolean verificaDir() throws IOException {
 		File dir = new File("C:\\TEMP");//Busca e armazena o diretorio 'TEMP'
 		File file = new File("C:\\TEMP", "entrada.txt");//Busca e armazena o arquivo 'entrada.txt'
 		boolean existe = false;//Caso o diretório e o arquivo exista essa variavel fica true

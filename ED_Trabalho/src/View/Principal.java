@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 import Controller.CRUD;
+import Controller.Ordenação;
 public class Principal{
 
 	public static void main(String[] args) {
@@ -11,6 +12,7 @@ public class Principal{
 	int cod = 0;//Caso o usuario deseje pesquisar ou alterar um valor, essa variavel vai salvar a posição do registro
 	int cont = 0;//Serve para verificar se o usuario deseja sair da aplicação
 	CRUD crud = new CRUD();//CRUD é a classe onde todas as funções do software estão
+	Ordenação order = new Ordenação();
 	//A função 'do while' irá repetir a execução da aplicação até que o usuario deseje sair 	
 	do {
 			//O try catch irá tratar erros das classe 'Principal' e pegar os throws da classe 'CRUD' 
@@ -85,6 +87,17 @@ public class Principal{
 						}
 						break;
 					case 5:
+						opt2 = Integer.parseInt(JOptionPane.showInputDialog("Selecione um metodo de ordenação de dados:\n1-Hash(Cidades)\n2-Hash(Nomes)\n3-Ordenação2\n4-Ordenação3\n5-Ordenação\n\n0-Para retornar para o menu principal"));
+						if(opt2 > 9) {
+							JOptionPane.showMessageDialog(null, "Função não existente","Erro",JOptionPane.ERROR_MESSAGE);
+							cont = JOptionPane.NO_OPTION;
+						}
+						else if(opt2 == 0) {
+							cont = JOptionPane.showConfirmDialog(null,"Você deseja retornar ao menu principal?","Retornar",JOptionPane.YES_NO_OPTION);
+							cont = JOptionPane.NO_OPTION;
+						}else {
+							order.sort(opt2);
+						}
 						break;
 					case 6:
 						crud.Ler();
