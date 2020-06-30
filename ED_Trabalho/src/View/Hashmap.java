@@ -38,8 +38,13 @@ public class Principal {
 			citymaps.put(fields[i], i);
 		}
 
+		long tempInicial = System.currentTimeMillis();
 		Map<String, Integer> mapaOrdenado = new TreeMap<String, Integer>(citymaps);
 		mapaOrdenado.keySet().forEach(System.out::println);
+		Long tempFinal = System.currentTimeMillis();
+		long dif = (tempFinal - tempInicial);
+		System.out.println(String.format(" %02d segundos e  %02d milisegundos",dif/60,dif%60));
+
 	}
 
 }
