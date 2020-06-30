@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -51,13 +52,13 @@ public class CRUD {
 			buffer.close();
 			leitor.close();
 			arq.close();
-			
-			index = lista.indexOf(selecionaTabela(opt2));
+			String tabela[] = selecionaTabela(opt2);
+			index = lista.indexOf(tabela[0]);
 			String dados = "";
 			while(!fila.isEmpty()) {
-				dados += fila.poll() + "|";
+				dados += fila.poll() + " ";
 			}
-			lista.add(index - 1, dados);
+			lista.add(index, dados);
 			FileWriter writer = new FileWriter(file,false);
 			BufferedWriter bufferW = new BufferedWriter(writer);
 			PrintWriter print = new PrintWriter(bufferW);
@@ -70,63 +71,74 @@ public class CRUD {
 			writer.close();
 		}
 	}
-	private String selecionaTabela(int opt2) {
-		String tabela = "";
+	private String[] selecionaTabela(int opt2) {
+		String tabela[] = new String[2];
 		if(opt2 == 1) {
-			tabela = "Fim_Colheita:";
+			tabela[0] = "Fim_Colheita:";
+			tabela[1] = "(Cultura|Variedade_ou_Cultivar|Quadra|Parcela|Talhão|Lote|Data_de_embalamento|Unidade_Comercializada|Observações)";
 		}
 		else if(opt2 == 2) {
-			tabela = "Fim_Comprador:";
+			tabela[0] = "Fim_Comprador:";
+			tabela[1] = "(Nome|Razao_social|CNPJ|Inscrição_Estadual|Endereço|Bairro|CEP|Estado|Munícipio|Telefone|Celular|Email)";
 		}
 		else if(opt2 == 3) {
-			tabela = "Fim_Empresa:";
+			tabela[0] = "Fim_Empresa:";
+			tabela[1] = "(Telefone|Celular|Email|Tipo_de_usuario|Razão_Social)";
 		}
 		else if(opt2 == 4) {
-			tabela = "Fim_Insumos:";
+			tabela[0] = "Fim_Insumos:";
+			tabela[1] = "(Quadra|Parcela|Talhão|Data de aplicação|Nome comercial do produto|Periodo de carência em dias|Dose)";
 		}
 		else if(opt2 == 5) {
-			tabela = "Fim_Produtos:";
+			tabela[0] = "Fim_Produtos:";
+			tabela[1] = "(Nome|Tipo|Colheita)";
 		}
 		else if(opt2 == 6) {
-			tabela = "Fim_Produtor:";
+			tabela[0] = "Fim_Produtor:";
+			tabela[1] = "(Telefone|Celular|Email|Tipo_de_usuario|Nome)";
 		}
 		else if(opt2 == 7) {
-			tabela = "Fim_Propriedade:";
+			tabela[0] = "Fim_Propriedade:";
+			tabela[1] = "(Nome|Endereço|Bairro|Munícipio|Estado|CEP|Altitude|Longitude|Latitude|CCIR|CNPJ)";
 		}
 		else if(opt2 == 8) {
-			tabela = "Fim_Rótulos:";
+			tabela[0] = "Fim_Rótulos:";
+			tabela[1] = "(Produto|Variedade|Classificação|Nome_do_produtor|CNPJ|Nome_da_propriedade|Endereço|Baírro|Município|Estado|País_de_Origem|CEP|Altitude|Latitude|Longitude|Peso_Líquido|Lote|Data_de_Embalamento|Codigo_de_barras)";
 		}
 		else if(opt2 == 9) {
-			tabela = "Fim_Venda:";
+			tabela[0] = "Fim_Venda:";
+			tabela[1] = "(Data|Nota_Físcal|Produto|Lote|Quantidade)";
 		}
 		return tabela;
 	}
+	//Caso o diretório exista, mas o arquivo não, essa função cria ele
 	private void gerarArquivo() throws IOException{
 		File file = new File("C:\\TEMP", "entrada.txt");
 		file.createNewFile();
 		FileWriter writer = new FileWriter(file,true);
 		BufferedWriter buffer = new BufferedWriter(writer);
 		PrintWriter print = new PrintWriter(buffer);
-		print.write("Colheita:\n(Cultura|Variedade_ou_Cultivar|Quadra|Parcela|Talhão|Lote|Data_de_embalamento|Unidade_Comercializada|Observações)\n\n\r\rFim_Colheita:\n\r" + 
-		"Comprador:\n\r(Nome|Razao_social|CNPJ|Inscrição_Estadual|Endereço|Bairro|CEP|Estado|Munícipio|Telefone|Celular|Email)\n\n\r\rFim_Comprador:\n\r"+
-		"Empresa:\n\r(Telefone|Celular|Email|Tipo_de_usuario|Razão_Social)\n\n\r\rFim_Empresa:\n\r" +
-		"Insumos:\n\r(Quadra|Parcela|Talhão|Data de aplicação|Nome comercial do produto|Periodo de carência em dias|Dose)\n\n\r\rFim_Insumos:\n\r" +
-		"Produtos:\n\r(Nome|Tipo|Colheita)\n\n\r\rFim_Produtos:\n\r" +
-		"Produtor:\n\r(Telefone|Celular|Email|Tipo_de_usuario|Nome)\n\n\r\rFim_Produtor:\n\r" +
-		"Propriedade:\n\r(Nome|Endereço|Bairro|Munícipio|Estado|CEP|Altitude|Longitude|Latitude|CCIR|CNPJ)\n\n\r\rFim_Propriedade:\n\r" +
-		"Rotulos:\n\r(Produto|Variedade|Classificação|Nome_do_produtor|CNPJ|Nome_da_propriedade|Endereço|Baírro|Município|Estado|País_de_Origem|CEP|Altitude|Latitude|Longitude|Peso_Líquido|Lote|Data_de_Embalamento|Codigo_de_barras)\n\n\r\rFim_Rótulos:\n\r" +
-		"Venda:\n\r(Data|Nota_Físcal|Produto|Lote|Quantidade)\n\n\r\rFim_Venda:\n\r");
+		print.write("Colheita:\n(Cultura|Variedade_ou_Cultivar|Quadra|Parcela|Talhão|Lote|Data_de_embalamento|Unidade_Comercializada|Observações)\nFim_Colheita:\n\r" + 
+		"Comprador:\n(Nome|Razao_social|CNPJ|Inscrição_Estadual|Endereço|Bairro|CEP|Estado|Munícipio|Telefone|Celular|Email)\nFim_Comprador:\n\r"+
+		"Empresa:\n(Telefone|Celular|Email|Tipo_de_usuario|Razão_Social)\nFim_Empresa:\n\r" +
+		"Insumos:\n(Quadra|Parcela|Talhão|Data de aplicação|Nome comercial do produto|Periodo de carência em dias|Dose)\nFim_Insumos:\n\r" +
+		"Produtos:\n(Nome|Tipo|Colheita)\nFim_Produtos:\n\r" +
+		"Produtor:\n(Telefone|Celular|Email|Tipo_de_usuario|Nome)\nFim_Produtor:\n\r" +
+		"Propriedade:\n(Nome|Endereço|Bairro|Munícipio|Estado|CEP|Altitude|Longitude|Latitude|CCIR|CNPJ)\nFim_Propriedade:\n\r" +
+		"Rotulos:\n(Produto|Variedade|Classificação|Nome_do_produtor|CNPJ|Nome_da_propriedade|Endereço|Baírro|Município|Estado|País_de_Origem|CEP|Altitude|Latitude|Longitude|Peso_Líquido|Lote|Data_de_Embalamento|Codigo_de_barras)\nFim_Rótulos:\n\r" +
+		"Venda:\n(Data|Nota_Físcal|Produto|Lote|Quantidade)\nFim_Venda:\n");
 		print.flush();
 		print.close();
 		buffer.close();
 		writer.close();
 	}
-	
+	//Caso o diretório não exista, essa função cria ele
 	private void gerarDiretório() throws IOException{
 		File dir = new File("C:\\TEMP");
 		dir.mkdir();
 	}
-	private boolean verificaDir() throws IOException {
+	//Verifica a existencia do arquivo 'entrada.txt' e o diretório em que ele fica
+	public boolean verificaDir() throws IOException {
 		File dir = new File("C:\\TEMP");
 		File file = new File("C:\\TEMP", "entrada.txt");
 		boolean existe = false;
@@ -147,8 +159,106 @@ public class CRUD {
 		return existe;
 	}
 	
-	public void Alterar() {
-		
+	public void Alterar(int opt2,int cod) throws IOException {
+		File file = new File("C:\\TEMP", "entrada.txt");
+		if(verificaDir() == true) {
+			Queue<Object> fila = new LinkedList<Object>();
+			int cont = 0;
+			FileInputStream arq = new FileInputStream(file);
+			InputStreamReader leitor = new InputStreamReader(arq);
+			BufferedReader buffer = new BufferedReader(leitor);
+			LinkedList<Object> lista = new LinkedList<Object>();
+			String linha = "";
+			String valores[][];
+			int inicio = 0, fim = 0;
+			String tabela[] = selecionaTabela(opt2);
+			Object sub_lista[];
+			while ((linha = buffer.readLine()) != null) {
+				lista.add(linha);
+			}
+			buffer.close();
+			leitor.close();
+			arq.close();
+			inicio = lista.indexOf(tabela[1]);
+			fim = lista.indexOf(tabela[0]);
+			String c = "";
+			String aux[];
+			sub_lista = lista.subList(inicio + 1, fim).toArray();
+			if(sub_lista.length != 0) {
+				setAll(opt2);
+				fila.addAll(getAll(opt2));
+				c = sub_lista[0].toString();
+				aux = c.split(" ");
+				valores = new String[sub_lista.length][aux.length];
+				for(int x = 0; x < sub_lista.length; x++) {
+					c = sub_lista[x].toString();
+					aux = c.split(" ");
+					for(int y = 0; y < aux.length; y++) {
+						valores[x][y] = aux[y];
+					}
+				}
+				String dados = "";
+				while(!fila.isEmpty()) {
+					valores[cod][cont] = fila.poll().toString();
+					dados += valores[cod][cont] + " ";
+					cont++;
+				}
+				lista.set(inicio + cod, dados);
+				FileWriter writer = new FileWriter(file,false);
+				BufferedWriter bufferW = new BufferedWriter(writer);
+				PrintWriter print = new PrintWriter(bufferW);
+				for(int x = 0; x <= lista.size() - 1; x++) {
+					print.println(String.valueOf(lista.get(x)));
+				}
+				print.flush();
+				print.close();
+				bufferW.close();
+				writer.close();
+			}
+			else {
+				throw new IOException("A tabela está vazia");
+			}
+		}
+	}
+	public void Excluir(int opt2) throws FileNotFoundException, IOException {
+		File file = new File("C:\\TEMP", "entrada.txt");
+		if(verificaDir() == true) {
+			Queue<Object> fila = new LinkedList<Object>();
+			FileInputStream arq = new FileInputStream(file);
+			InputStreamReader leitor = new InputStreamReader(arq);
+			BufferedReader buffer = new BufferedReader(leitor);
+			LinkedList<Object> lista = new LinkedList<Object>();
+			String linha = "";
+			Object sub_lista[];
+			int inicio = 0, fim = 0;
+			String tabela[] = selecionaTabela(opt2);
+			while ((linha = buffer.readLine()) != null) {
+				fila.add(linha);
+				lista.add(linha);
+			}
+			buffer.close();
+			leitor.close();
+			arq.close();
+			inicio = lista.indexOf(tabela[1]);
+			fim = lista.indexOf(tabela[0]);
+			sub_lista = lista.subList(inicio + 1, fim).toArray();
+			if(sub_lista.length != 0) {
+				lista.remove(inicio + 1);
+				FileWriter writer = new FileWriter(file,false);
+				BufferedWriter bufferW = new BufferedWriter(writer);
+				PrintWriter print = new PrintWriter(bufferW);
+				for(int x = 0; x <= lista.size() - 1; x++) {
+					print.println(String.valueOf(lista.get(x)));
+				}
+				print.flush();
+				print.close();
+				bufferW.close();
+				writer.close();
+			}
+			else {
+				throw new IOException("A tabela está vazia");
+			}
+		}
 	}
 	public void Ler() throws IOException {
 		File file = new File("C:\\TEMP", "entrada.txt");
@@ -162,9 +272,6 @@ public class CRUD {
 			buffer.close();
 			leitor.close();
 		}
-	}
-	public void Excluir() {
-		
 	}
 	public void Consultar() {
 		
