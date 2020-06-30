@@ -13,7 +13,6 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.BiConsumer;
 public class Ordenação {
 	
 	public void sort(int opt2) throws FileNotFoundException, IOException {
@@ -105,15 +104,13 @@ public class Ordenação {
 		FileWriter writer = new FileWriter(file,true);
 		BufferedWriter buffer = new BufferedWriter(writer);
 		PrintWriter print = new PrintWriter(buffer);
-		print.write("Colheita:\n(Cultura|Variedade_ou_Cultivar|Quadra|Parcela|Talhão|Lote|Data_de_embalamento|Unidade_Comercializada|Observações)\nFim_Colheita:\n\r" + 
-		"Comprador:\n(Nome|Razao_social|CNPJ|Inscrição_Estadual|Endereço|Bairro|CEP|Estado|Munícipio|Telefone|Celular|Email)\nFim_Comprador:\n\r"+
-		"Empresa:\n(Telefone|Celular|Email|Tipo_de_usuario|Razão_Social)\nFim_Empresa:\n\r" +
-		"Insumos:\n(Quadra|Parcela|Talhão|Data de aplicação|Nome comercial do produto|Periodo de carência em dias|Dose)\nFim_Insumos:\n\r" +
-		"Produtos:\n(Nome|Tipo|Colheita)\nFim_Produtos:\n\r" +
-		"Produtor:\n(Telefone|Celular|Email|Tipo_de_usuario|Nome)\nFim_Produtor:\n\r" +
-		"Propriedade:\n(Nome|Endereço|Bairro|Munícipio|Estado|CEP|Altitude|Longitude|Latitude|CCIR|CNPJ)\nFim_Propriedade:\n\r" +
-		"Rotulos:\n(Produto|Variedade|Classificação|Nome_do_produtor|CNPJ|Nome_da_propriedade|Endereço|Baírro|Município|Estado|País_de_Origem|CEP|Altitude|Latitude|Longitude|Peso_Líquido|Lote|Data_de_Embalamento|Codigo_de_barras)\nFim_Rótulos:\n\r" +
-		"Venda:\n(Data|Nota_Físcal|Produto|Lote|Quantidade)\nFim_Venda:\n");
+		print.write("São Paulo;Guarulhos;Campinas;São bernardo do Campo;"
+				+ "São José dos Campos;Santo André;Ribeirão Preto;Osasco;Sorocaba;Mauá;"
+				+ "São José do Rio Preto;Mogi das Cruzes;Santos;Diadema;"
+				+ "Jundiaí;Piracicaba;Carapicuíba;Bauru;Itaquaquecetuba;São Vicente;Franca;"
+				+ "Praia Grande;Guarujá;Taubaté;Limeira;Suzano;"
+				+ "Taboão da Serra;Sumaré;Barueri;Embu das Artes;São Carlos;Indaiatuba;"
+				+ "Cotia;Americana;Marília;Itapevi;Araraquara;Jacareí;Hortolândia;Presidente Prudente;");
 		print.flush();
 		print.close();
 		buffer.close();

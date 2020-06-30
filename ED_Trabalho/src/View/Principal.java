@@ -1,5 +1,7 @@
 package View;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 import Controller.CRUD;
@@ -11,6 +13,8 @@ public class Principal{
 	int opt2 = 0;//Armazena o codigo da tabela selecionada
 	int cod = 0;//Caso o usuario deseje pesquisar ou alterar um valor, essa variavel vai salvar a posição do registro
 	int cont = 0;//Serve para verificar se o usuario deseja sair da aplicação
+	long tempInicial = 0;//pega o tempo inicial da execução de uma função
+	long tempFinal = 0;;//pega o tempo final da execução de uma função
 	CRUD crud = new CRUD();//CRUD é a classe onde todas as funções do software estão
 	Ordenação order = new Ordenação();
 	//A função 'do while' irá repetir a execução da aplicação até que o usuario deseje sair 	
@@ -30,8 +34,13 @@ public class Principal{
 							cont = JOptionPane.NO_OPTION;
 						}
 						else {
+							tempInicial = System.currentTimeMillis();
 							crud.setAll(opt2);
 							crud.Inserir(opt2);
+							tempFinal = System.currentTimeMillis();
+							System.out.println("\n\n____________Relátório______________");
+							System.out.println("Função usada: Inserir");
+							System.out.println("Tempo de execução:" + new SimpleDateFormat("mm:ss:SSS").format(new Date(tempFinal - tempInicial)));
 						}
 						break;
 					case 2:
@@ -48,9 +57,14 @@ public class Principal{
 							cont = JOptionPane.NO_OPTION;
 						}
 						else {
+							tempInicial = System.currentTimeMillis();
 							crud.Alterar(opt2,cod);
+							tempFinal = System.currentTimeMillis();
 							System.out.println("\n____________Depois______________");
 							crud.Ler();
+							System.out.println("\n\n____________Relátório______________");
+							System.out.println("Função usada: Alterar");
+							System.out.println("Tempo de execução:" + new SimpleDateFormat("mm:ss:SSS").format(new Date(tempFinal - tempInicial)));
 						}
 						break;
 					case 3:
@@ -66,9 +80,14 @@ public class Principal{
 							cont = JOptionPane.NO_OPTION;
 						}
 						else {
+							tempInicial = System.currentTimeMillis();
 							crud.Excluir(opt2);
+							tempFinal = System.currentTimeMillis();
 							System.out.println("\n____________Depois______________");
 							crud.Ler();
+							System.out.println("\n\n____________Relátório______________");
+							System.out.println("Função usada: Excluir");
+							System.out.println("Tempo de execução:" + new SimpleDateFormat("mm:ss:SSS").format(new Date(tempFinal - tempInicial)));
 						}
 						break;
 					case 4:
@@ -83,7 +102,12 @@ public class Principal{
 							cont = JOptionPane.NO_OPTION;
 						}
 						else {
+							tempInicial = System.currentTimeMillis();
 							crud.Consultar(opt2,cod);
+							tempFinal = System.currentTimeMillis();
+							System.out.println("\n\n____________Relátório______________");
+							System.out.println("Função usada: Pesquisar");
+							System.out.println("Tempo de execução:" + new SimpleDateFormat("mm:ss:SSS").format(new Date(tempFinal - tempInicial)));
 						}
 						break;
 					case 5:
@@ -96,11 +120,21 @@ public class Principal{
 							cont = JOptionPane.showConfirmDialog(null,"Você deseja retornar ao menu principal?","Retornar",JOptionPane.YES_NO_OPTION);
 							cont = JOptionPane.NO_OPTION;
 						}else {
+							tempInicial = System.currentTimeMillis();
 							order.sort(opt2);
+							tempFinal = System.currentTimeMillis();
+							System.out.println("\n\n____________Relátório______________");
+							System.out.println("Função usada: Ordenar");
+							System.out.println("Tempo de execução:" + new SimpleDateFormat("mm:ss:SSS").format(new Date(tempFinal - tempInicial)));
 						}
 						break;
 					case 6:
+						tempInicial = System.currentTimeMillis();
 						crud.Ler();
+						tempFinal = System.currentTimeMillis();
+						System.out.println("\n\n____________Relátório______________");
+						System.out.println("Função usada: Ler");
+						System.out.println("Tempo de execução:" + new SimpleDateFormat("mm:ss:SSS").format(new Date(tempFinal - tempInicial)));
 						break;
 					case 0:
 						cont = JOptionPane.showConfirmDialog(null,"Você deseja encerrar a aplicação?","Sair",JOptionPane.YES_NO_OPTION);
