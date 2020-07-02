@@ -47,6 +47,8 @@ public class CRUD {
 			int index = 0;//Vai receber o indice do fim da area de inserção de registros
 			//Busca a tabela selecionada pelo usuario e retorna  o inicio e fim da area de inserção de registros
 			String tabela[] = selecionaTabela(opt2);
+			//Vai perguntar ao usuario os valores que ele deseja inserir na tabela
+			setAll(opt2);
 			//A fila recebe todos os dados inseridos pelo usuario
 			fila.addAll(getAll(opt2));
 			//Abaixo o arquivo vai ser lido e alocado linha por linha na variavel linha
@@ -360,94 +362,96 @@ public class CRUD {
 		Queue<Object> fila = new LinkedList<Object>();
 		if(opt2 == 1) {
 			fila.add(colheita.getCultura());
-			fila.add(colheita.getData_de_embalamento());
-			fila.add(colheita.getLote());
-			fila.add(colheita.getObservações());
-			fila.add(colheita.getParcela());
-			fila.add(colheita.getQuadra());
-			fila.add(colheita.getTalhão());
-			fila.add(colheita.getUnidade_Comercializada());
 			fila.add(colheita.getVariedade_ou_Cultivar());
+			fila.add(colheita.getQuadra());
+			fila.add(colheita.getParcela());
+			fila.add(colheita.getTalhão());
+			fila.add(colheita.getLote());
+			fila.add(colheita.getData_de_embalamento());
+			fila.add(colheita.getUnidade_Comercializada());
+			fila.add(colheita.getObservações());
 		}
 		else if(opt2 == 2) {
-			fila.add(comprador.getBairro());
-			fila.add(comprador.getCelular());
-			fila.add(comprador.getCEP());
-			fila.add(comprador.getCNPJ());
-			fila.add(comprador.getEmail());
-			fila.add(comprador.getEndereço());
-			fila.add(comprador.getEstado());
-			fila.add(comprador.getInscrição_Estadual());
-			fila.add(comprador.getMunícipio());
 			fila.add(comprador.getNome());
 			fila.add(comprador.getRazão_social());
+			fila.add(comprador.getCNPJ());
+			fila.add(comprador.getInscrição_Estadual());
+			fila.add(comprador.getEndereço());
+			fila.add(comprador.getBairro());
+			fila.add(comprador.getCEP());
+			fila.add(comprador.getEstado());
+			fila.add(comprador.getMunícipio());
 			fila.add(comprador.getTelefone());
+			fila.add(comprador.getCelular());
+			fila.add(comprador.getEmail());
 		}
 		else if(opt2 == 3) {
+			fila.add(empresa.getTelefone());
 			fila.add(empresa.getCelular());
 			fila.add(empresa.getEmail());
+			fila.add(empresa.getTipo_de_usuario());
 			fila.add(empresa.getRazão_Social());
-			fila.add(empresa.getTelefone());
 		}
 		else if(opt2 == 4) {
-			fila.add(insumos.getData_de_aplicação());
-			fila.add(insumos.getDose());
-			fila.add(insumos.getNome_comercial_do_produto());
-			fila.add(insumos.getParcela());
-			fila.add(insumos.getPeriodo_de_carência_em_dias());
 			fila.add(insumos.getQuadra());
+			fila.add(insumos.getParcela());
 			fila.add(insumos.getTalhão());
+			fila.add(insumos.getData_de_aplicação());
+			fila.add(insumos.getNome_comercial_do_produto());
+			fila.add(insumos.getPeriodo_de_carência_em_dias());
+			fila.add(insumos.getDose());
 		}
 		else if(opt2 == 5) {
-			fila.add(produto.getColheita());
 			fila.add(produto.getNome());
 			fila.add(produto.getTipo());
+			fila.add(produto.getColheita());
 		}
 		else if(opt2 == 6) {
+			fila.add(produtor.getTelefone());
 			fila.add(produtor.getCelular());
 			fila.add(produtor.getEmail());
+			fila.add(produtor.getTipo_de_usuario());
 			fila.add(produtor.getNome());
-			fila.add(produtor.getTelefone());
 		}
 		else if(opt2 == 7) {
-			fila.add(propriedade.getBairro());
-			fila.add(propriedade.getAltitude());
-			fila.add(propriedade.getCEP());
-			fila.add(propriedade.getCNPJ());
-			fila.add(propriedade.getCCIR());
-			fila.add(propriedade.getEndereço());
-			fila.add(propriedade.getEstado());
-			fila.add(propriedade.getLatitude());
-			fila.add(propriedade.getMunícipio());
 			fila.add(propriedade.getNome());
+			fila.add(propriedade.getEndereço());
+			fila.add(propriedade.getBairro());
+			fila.add(propriedade.getMunícipio());
+			fila.add(propriedade.getEstado());
+			fila.add(propriedade.getCEP());
+			fila.add(propriedade.getAltitude());			
 			fila.add(propriedade.getLongitude());
+			fila.add(propriedade.getLatitude());
+			fila.add(propriedade.getCCIR());
+			fila.add(propriedade.getCNPJ());
 		}
 		else if(opt2 == 8) {
-			fila.add(rotulos.getAltitude());
-			fila.add(rotulos.getBaírro());
-			fila.add(rotulos.getCEP());
-			fila.add(rotulos.getCNPJ());
-			fila.add(rotulos.getClassificação());
-			fila.add(rotulos.getCodigo_de_barras());
-			fila.add(rotulos.getData_de_Embalamento());
-			fila.add(rotulos.getEndereço());
-			fila.add(rotulos.getEstado());
-			fila.add(rotulos.getLatitude());
-			fila.add(rotulos.getLongitude());
-			fila.add(rotulos.getLote());
-			fila.add(rotulos.getMunicípio());
-			fila.add(rotulos.getNome_da_propriedade());
-			fila.add(rotulos.getNome_do_produtor());
-			fila.add(rotulos.getPaís_de_Origem());
-			fila.add(rotulos.getPeso_Líquido());
 			fila.add(rotulos.getProduto());
 			fila.add(rotulos.getVariedade());
+			fila.add(rotulos.getClassificação());
+			fila.add(rotulos.getNome_do_produtor());
+			fila.add(rotulos.getCNPJ());
+			fila.add(rotulos.getNome_da_propriedade());
+			fila.add(rotulos.getEndereço());
+			fila.add(rotulos.getBaírro());
+			fila.add(rotulos.getMunicípio());
+			fila.add(rotulos.getCEP());
+			fila.add(rotulos.getEstado());
+			fila.add(rotulos.getPaís_de_Origem());
+			fila.add(rotulos.getAltitude());
+			fila.add(rotulos.getLatitude());
+			fila.add(rotulos.getLongitude());
+			fila.add(rotulos.getPeso_Líquido());
+			fila.add(rotulos.getLote());
+			fila.add(rotulos.getData_de_Embalamento());
+			fila.add(rotulos.getCodigo_de_barras());
 		}
 		else if(opt2 == 9) {
 			fila.add(venda.getData());
-			fila.add(venda.getLote());
 			fila.add(venda.getNota_Físcal());
 			fila.add(venda.getProduto());
+			fila.add(venda.getLote());
 			fila.add(venda.getQuantidade());
 		}
 		return fila;
@@ -483,6 +487,7 @@ public class CRUD {
 			empresa.setEmail(String.valueOf(JOptionPane.showInputDialog("Insira a email:")));
 			empresa.setRazão_Social(String.valueOf(JOptionPane.showInputDialog("Insira a razão social:")));
 			empresa.setTelefone(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
+			empresa.setTipo_de_usuario("Empresa");
 		}
 		else if(opt2 == 4) {
 			insumos.setTalhão(Integer.parseInt(JOptionPane.showInputDialog("Insira o talhão:")));
@@ -500,41 +505,42 @@ public class CRUD {
 		}
 		else if(opt2 == 6) {
 			produtor.setCelular(Integer.parseInt(JOptionPane.showInputDialog("Insira o Celular:")));
-			produtor.setEmail(String.valueOf(JOptionPane.showInputDialog("Insira o email:")));
-			produtor.setNome(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			produtor.setTelefone(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
+			produtor.setEmail(String.valueOf(JOptionPane.showInputDialog("Insira o Email:")));
+			produtor.setNome(String.valueOf(JOptionPane.showInputDialog("Insira o Nome:")));
+			produtor.setTelefone(Integer.parseInt(JOptionPane.showInputDialog("Insira o Telefone:")));
+			produtor.setTipo_de_usuario("Produtor");
 		}
 		else if(opt2 == 7) {
-			propriedade.setAltitude(Double.parseDouble(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setBairro(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setCCIR(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			propriedade.setCEP(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			propriedade.setCNPJ(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			propriedade.setEndereço(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setEstado(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setLatitude(Double.parseDouble(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setLongitude(Double.parseDouble(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setMunícipio(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			propriedade.setNome(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
+			propriedade.setAltitude(Double.parseDouble(JOptionPane.showInputDialog("Insira a Altitude:")));
+			propriedade.setBairro(String.valueOf(JOptionPane.showInputDialog("Insira o Bairro:")));
+			propriedade.setCCIR(Integer.parseInt(JOptionPane.showInputDialog("Insira o CCIR:")));
+			propriedade.setCEP(Integer.parseInt(JOptionPane.showInputDialog("Insira o CEP:")));
+			propriedade.setCNPJ(Integer.parseInt(JOptionPane.showInputDialog("Insira o CNPJ:")));
+			propriedade.setEndereço(String.valueOf(JOptionPane.showInputDialog("Insira o Endereço:")));
+			propriedade.setEstado(String.valueOf(JOptionPane.showInputDialog("Insira o Estado:")));
+			propriedade.setLatitude(Double.parseDouble(JOptionPane.showInputDialog("Insira a Latitude:")));
+			propriedade.setLongitude(Double.parseDouble(JOptionPane.showInputDialog("Insira a Longitude:")));
+			propriedade.setMunícipio(String.valueOf(JOptionPane.showInputDialog("Insira o Munícipio:")));
+			propriedade.setNome(String.valueOf(JOptionPane.showInputDialog("Insira o Nome:")));
 		}
 		else if(opt2 == 8) {
-			rotulos.setAltitude(Double.parseDouble(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setVariedade(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setProduto(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setPeso_Líquido(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			rotulos.setNome_do_produtor(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setNome_da_propriedade(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setCodigo_de_barras(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			rotulos.setPaís_de_Origem(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setLote(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			rotulos.setCEP(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			rotulos.setCNPJ(Integer.parseInt(JOptionPane.showInputDialog("Insira o telefone:")));
-			rotulos.setEndereço(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setEstado(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setLatitude(Double.parseDouble(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setLongitude(Double.parseDouble(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setData_de_Embalamento(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
-			rotulos.setClassificação(String.valueOf(JOptionPane.showInputDialog("Insira o nome:")));
+			rotulos.setAltitude(Double.parseDouble(JOptionPane.showInputDialog("Insira a Altitude:")));
+			rotulos.setVariedade(String.valueOf(JOptionPane.showInputDialog("Insira a Variedade:")));
+			rotulos.setProduto(String.valueOf(JOptionPane.showInputDialog("Insira o Produto:")));
+			rotulos.setPeso_Líquido(Integer.parseInt(JOptionPane.showInputDialog("Insira o Peso Líquido:")));
+			rotulos.setNome_do_produtor(String.valueOf(JOptionPane.showInputDialog("Insira o nome do Produtor:")));
+			rotulos.setNome_da_propriedade(String.valueOf(JOptionPane.showInputDialog("Insira o nome da Propriedade:")));
+			rotulos.setCodigo_de_barras(Integer.parseInt(JOptionPane.showInputDialog("Insira o código de barra(Caso não tenha coloque 0):")));
+			rotulos.setPaís_de_Origem(String.valueOf(JOptionPane.showInputDialog("Insira o País de Origem:")));
+			rotulos.setLote(Integer.parseInt(JOptionPane.showInputDialog("Insira o Lote:")));
+			rotulos.setCEP(Integer.parseInt(JOptionPane.showInputDialog("Insira o CEP:")));
+			rotulos.setCNPJ(Integer.parseInt(JOptionPane.showInputDialog("Insira o CNPJ:")));
+			rotulos.setEndereço(String.valueOf(JOptionPane.showInputDialog("Insira o Endereço:")));
+			rotulos.setEstado(String.valueOf(JOptionPane.showInputDialog("Insira o Estado:")));
+			rotulos.setLatitude(Double.parseDouble(JOptionPane.showInputDialog("Insira a Latitude:")));
+			rotulos.setLongitude(Double.parseDouble(JOptionPane.showInputDialog("Insira a Longitude:")));
+			rotulos.setData_de_Embalamento(String.valueOf(JOptionPane.showInputDialog("Insira a Data de Embalagem:")));
+			rotulos.setClassificação(String.valueOf(JOptionPane.showInputDialog("Insira a Classificação:")));
 		}
 		else if(opt2 == 9) {
 			venda.setData(String.valueOf(JOptionPane.showInputDialog("Insira a data de venda:")));
